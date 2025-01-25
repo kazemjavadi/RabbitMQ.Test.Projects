@@ -1,7 +1,1 @@
-# RabbitMQ
-## Commands
-
-Fire up the server
-```
-rabbitmq-server 
-```
+# RabbitMQ Test Projects
