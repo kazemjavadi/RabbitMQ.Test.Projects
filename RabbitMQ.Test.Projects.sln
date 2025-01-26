@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "013.RabbitMQ.Queue.AutoDele
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "014.RabbitMQ.Message.BlackHoled.Scenarios", "014.RabbitMQ.Message.BlackHoled.Scenarios\014.RabbitMQ.Message.BlackHoled.Scenarios.csproj", "{61938D23-FB88-4928-840A-57A6C390103F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "015.RabbitMQ.Bind.Queue.Exchange.No.RoutingKey", "015.RabbitMQ.Bind.Queue.Exchange.No.RoutingKey\015.RabbitMQ.Bind.Queue.Exchange.No.RoutingKey.csproj", "{649DCED7-5711-456B-A1DF-ABD31850F775}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{61938D23-FB88-4928-840A-57A6C390103F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61938D23-FB88-4928-840A-57A6C390103F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61938D23-FB88-4928-840A-57A6C390103F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{649DCED7-5711-456B-A1DF-ABD31850F775}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{649DCED7-5711-456B-A1DF-ABD31850F775}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{649DCED7-5711-456B-A1DF-ABD31850F775}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{649DCED7-5711-456B-A1DF-ABD31850F775}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
