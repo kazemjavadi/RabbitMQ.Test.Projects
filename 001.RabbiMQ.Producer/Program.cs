@@ -13,7 +13,7 @@ string queueName = "q01";
 await channel.QueueDeclareAsync(queue: queueName, durable: true, exclusive: false, autoDelete: false);
 await channel.QueueBindAsync(queue: queueName, exchange: exchangeName, routingKey: string.Empty);
 
-for (int i = 0; i < 20; i++)
+for (int i = 0; i < 30; i++)
 {
     string message = $"This is message number {i} from Producer ({DateTime.Now})";
     var messageBody = Encoding.UTF8.GetBytes(message);
