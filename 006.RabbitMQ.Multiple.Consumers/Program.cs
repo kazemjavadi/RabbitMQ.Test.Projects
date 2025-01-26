@@ -25,7 +25,6 @@ tasks.Add(Task.Run(async() =>
     string queueName = "q01";
     await channel.BasicConsumeAsync(queue: queueName, autoAck: true, consumer: consumer);
 
-    Console.ReadLine();
 }));
 
 tasks.Add(Task.Run(async () =>
@@ -43,10 +42,11 @@ tasks.Add(Task.Run(async () =>
     string queueName = "q01";
     await channel.BasicConsumeAsync(queue: queueName, autoAck: true, consumer: consumer);
 
-    Console.ReadLine();
 }));
 
 await Task.WhenAll(tasks);
+
+Console.ReadLine();
 
 
 

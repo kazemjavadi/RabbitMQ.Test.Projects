@@ -48,7 +48,6 @@ tasks.Add(Task.Run(async () =>
 
 await Task.WhenAll(tasks);
 
-Console.WriteLine("End.");
 Console.ReadLine();
 
 
