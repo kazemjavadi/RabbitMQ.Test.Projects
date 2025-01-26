@@ -10,7 +10,7 @@ var connection = await factory.CreateConnectionAsync();
 
 List<Task> tasks = new List<Task>();
 
-tasks.Add(Task.Run(async() =>
+tasks.Add(Task.Run(async () =>
 {
     var channel = await connection.CreateChannelAsync();
 
@@ -20,12 +20,13 @@ tasks.Add(Task.Run(async() =>
     {
         string message = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
         Console.WriteLine($"Received [Consumer1]: {message}");
+
+        await channel.BasicRejectAsync(eventArgs.DeliveryTag, requeue: true);
     };
 
     string queueName = "q01";
-    await channel.BasicConsumeAsync(queue: queueName, autoAck: true, consumer: consumer);
+    await channel.BasicConsumeAsync(queue: queueName, autoAck: false, consumer: consumer);
 
-    Console.ReadLine();
 }));
 
 tasks.Add(Task.Run(async () =>
@@ -43,10 +44,12 @@ tasks.Add(Task.Run(async () =>
     string queueName = "q01";
     await channel.BasicConsumeAsync(queue: queueName, autoAck: true, consumer: consumer);
 
-    Console.ReadLine();
 }));
 
 await Task.WhenAll(tasks);
+
+Console.WriteLine("End.");
+Console.ReadLine();
 
 
 
