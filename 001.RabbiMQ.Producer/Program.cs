@@ -15,7 +15,7 @@ await channel.QueueBindAsync(queue: queueName, exchange: exchangeName, routingKe
 
 for (int i = 0; i < 20; i++)
 {
-    string message = $"This message number {i} from Producer ({DateTime.Now})";
+    string message = $"This is message number {i} from Producer ({DateTime.Now})";
     var messageBody = Encoding.UTF8.GetBytes(message);
 
     Console.WriteLine($"Message: {message}");
