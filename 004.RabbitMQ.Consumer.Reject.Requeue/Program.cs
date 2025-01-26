@@ -20,6 +20,6 @@ consumer.ReceivedAsync += async (model, eventArgs) =>
 };
 
 string queueName = "q01";
-await channel.BasicConsumeAsync(queue: queueName, autoAck: true, consumer: consumer);
+await channel.BasicConsumeAsync(queue: queueName, autoAck: false, consumer: consumer);
 
 Console.ReadLine();
