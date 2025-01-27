@@ -4,11 +4,9 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 
-string exchangeName = "myDirectExchange";
+string exchangeName = "myFanoutExchange";
 string queueName1 = "myQueue1";
 string queueName2 = "myQueue2";
-string routkingKey1 = "rk1";
-string routkingKey2 = "rk2";
 
 var tasks = new List<Task>();
 
@@ -19,23 +17,17 @@ tasks.Add(Task.Run(async () =>
     var connection = await factory.CreateConnectionAsync();
     var channel = await connection.CreateChannelAsync();
 
-    await channel.ExchangeDeclareAsync(exchange: exchangeName, type: ExchangeType.Direct);
+    await channel.ExchangeDeclareAsync(exchange: exchangeName, type: ExchangeType.Fanout);
     await channel.QueueDeclareAsync(queue: queueName1, exclusive: false);
     await channel.QueueDeclareAsync(queue: queueName2, exclusive: false);
 
-    await channel.QueueBindAsync(queue: queueName1, exchange: exchangeName, routingKey: routkingKey1);
-    await channel.QueueBindAsync(queue: queueName2, exchange: exchangeName, routingKey: routkingKey2);
+    await channel.QueueBindAsync(queue: queueName1, exchange: exchangeName, routingKey: string.Empty);
+    await channel.QueueBindAsync(queue: queueName2, exchange: exchangeName, routingKey: string.Empty);
 
     for (int i = 0; i < 10; i++)
     {
-        var body1 = Encoding.UTF8.GetBytes($"This is message number {i} with routing key {routkingKey1}");
-        await channel.BasicPublishAsync(exchange: exchangeName, routingKey: routkingKey1, body1);
-
-        if (i < 3)
-        {
-            var body2 = Encoding.UTF8.GetBytes($"This is message number {i} with routing key {routkingKey2}");
-            await channel.BasicPublishAsync(exchange: exchangeName, routingKey: routkingKey2, body2);
-        }
+        var body = Encoding.UTF8.GetBytes($"This is message number {i}");
+        await channel.BasicPublishAsync(exchange: exchangeName, routingKey:string.Empty, body);
     }
 }));
 #endregion
@@ -53,7 +45,7 @@ tasks.Add(Task.Run(async () =>
     consumer.ReceivedAsync += async (sender, eventArgs) =>
     {
         var message = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
-        Console.WriteLine($"[Queue: {queueName1} - RoutingKey: {routkingKey1}]: {message}");
+        Console.WriteLine($"[Queue: {queueName1}]: {message}");
     };
 
     await channel.BasicConsumeAsync(queue: queueName1, autoAck: true, consumer: consumer);
@@ -74,7 +66,7 @@ tasks.Add(Task.Run(async () =>
     consumer.ReceivedAsync += async (sender, eventArgs) =>
     {
         var message = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
-        Console.WriteLine($"[Queue: {queueName2} - RoutingKey: {routkingKey2}]: {message}");
+        Console.WriteLine($"[Queue: {queueName2}]: {message}");
     };
 
     await channel.BasicConsumeAsync(queue: queueName2, autoAck: true, consumer: consumer);
