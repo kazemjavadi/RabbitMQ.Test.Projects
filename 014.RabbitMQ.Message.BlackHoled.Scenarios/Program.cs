@@ -59,7 +59,7 @@ async Task Scenario2()
         Thread.Sleep(3000);
 
         var channel = await connection.CreateChannelAsync();
-        
+
         AsyncEventingBasicConsumer consumer = new AsyncEventingBasicConsumer(channel);
         consumer.ReceivedAsync += async (sender, eventArgs) =>
         {

@@ -19,7 +19,7 @@ tasks.Add(Task.Run(async () =>
 
     for (int i = 0; i < 10; i++)
     {
-        var body = Encoding.UTF8.GetBytes($"This is message number {i}"); 
+        var body = Encoding.UTF8.GetBytes($"This is message number {i}");
         //exchange name is empty string
         //routing key is queue name
         await channel.BasicPublishAsync(exchange: string.Empty, routingKey: queueName, body: body);

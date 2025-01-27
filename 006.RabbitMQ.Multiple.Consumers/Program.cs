@@ -10,7 +10,7 @@ var connection = await factory.CreateConnectionAsync();
 
 List<Task> tasks = new List<Task>();
 
-tasks.Add(Task.Run(async() =>
+tasks.Add(Task.Run(async () =>
 {
     var channel = await connection.CreateChannelAsync();
 

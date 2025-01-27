@@ -1,6 +1,5 @@
 ﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System.Security.AccessControl;
 
 var factory = new ConnectionFactory { HostName = "localhost" };
 

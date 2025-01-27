@@ -1,9 +1,7 @@
 ﻿
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System;
 using System.Text;
-using System.Xml.Schema;
 
 var factory = new ConnectionFactory { HostName = "localhost" };
 var connection = await factory.CreateConnectionAsync();

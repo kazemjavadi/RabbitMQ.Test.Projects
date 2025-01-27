@@ -1,10 +1,6 @@
-﻿using RabbitMQ.Client.Events;
-using RabbitMQ.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace _012.RabbitMQ.Exclusive.AutoDelete.Queue
 {

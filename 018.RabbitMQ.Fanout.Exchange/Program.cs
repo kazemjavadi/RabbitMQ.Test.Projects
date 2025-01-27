@@ -27,7 +27,7 @@ tasks.Add(Task.Run(async () =>
     for (int i = 0; i < 10; i++)
     {
         var body = Encoding.UTF8.GetBytes($"This is message number {i}");
-        await channel.BasicPublishAsync(exchange: exchangeName, routingKey:string.Empty, body);
+        await channel.BasicPublishAsync(exchange: exchangeName, routingKey: string.Empty, body);
     }
 }));
 #endregion
