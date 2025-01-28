@@ -37,3 +37,4 @@
 |------------------|-----------------|
 |  RabbitMQ log file    | `/var/log/rabbitmq/[erlang node name]@[hostname].log`    |
 |  RabbitMQ config file (systemwide tunables and settings)    | `/etc/rabbitmq/rabbitmq.config`    |
+|  Erlagn cookie    | *usually located in the user’s home directory*    |
