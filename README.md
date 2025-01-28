@@ -3,12 +3,12 @@
 |------------------|-----------------|
 | Fireup the RabbitMQ server     | `rabbitmq-sever`    | 
 | Fireup the RabbitMQ server detached from terminal    | `rabbitmq-sever -detached`    | 
-| Stop the RabbitMQ server     | `rabbitmqctl stop -n [erlang app name]@[host name]`    |
-| Stop the RabbitMQ application     | `rabbitmqctl stop_app -n [erlang app name]@[host name]`    |
+| Stop the RabbitMQ server     | `rabbitmqctl stop -n [erlang node name]@[host name]`    |
+| Stop the RabbitMQ application     | `rabbitmqctl stop_app -n [erlang node name]@[host name]`    |
 | Check the status of the server     | `rabbitmqctl status`     |
-| Add vhost     | `rabbitmqctl add_vhost [vhost name] -n [erlang app name]@[host name]`     |
-| Delete vhost     | `rabbitmqctl delete_vhost [vhost name] -n [erlang app name]@[host name]`     |
-| List vhost     | `rabbitmqctl list_vhosts -n [erlang app name]@[host name]`     |
+| Add vhost     | `rabbitmqctl add_vhost [vhost name] -n [erlang node name]@[host name]`     |
+| Delete vhost     | `rabbitmqctl delete_vhost [vhost name] -n [erlang node name]@[host name]`     |
+| List vhost     | `rabbitmqctl list_vhosts -n [erlang node name]@[host name]`     |
 | Add user     | `rabbitmqctl add_user [username] [password]`     |
 | Delete user     | `rabbitmq delete_user [username]`     |
 | List user     | `rabbitmq list_user`    |
