@@ -13,12 +13,12 @@
 | Delete user     | `rabbitmq delete_user [username]`     |
 | List user     | `rabbitmq list_user`    |
 | Change user password     | `rabbitmqctl change_password [username] [password]`    |
-| Setting user permission     | `rabbitmqctl set_permissions [vhost name] [username] "" "a.*" ".*"`     |
-| Clear permissions     | `rabbitmqctl clear_permissions -p [vhost name] [username]`    |
-| List user permissions    | `rabbitmqctl list_user_permissions [username]`    |
-| List queues     | `rabbitmqctl list_queues -p [vhost name]`    |
-| List exchanges     | `rabbitmqctl list_exchanges`    |
-| List bindings     | `rabbitmqctl list_bindigns`    |
+| Setting user permission. <br>"" : To match no *queue* or exchagne name <br> "a-.": Any queue or exchange that starts with "a-" <br> ".*": Any queue or exchange <br><br> First pattern: *Config* permission <br> Second pattern: *Write* permmission <br> Third pattern: *Read* permission | `rabbitmqctl set_permissions -P [vhost name] [username] "" "a.*" ".*"`     |
+| Clear permissions     | `rabbitmqctl -n [erlang node name]@[host name] clear_permissions -p [vhost name] [username]`    |
+| List user permissions    | `rabbitmqctl -n [erlang node name]@[host name] list_user_permissions [username]`    |
+| List queues     | `rabbitmqctl -n [erlang node name]@[host name] list_queues -p [vhost name]`    |
+| List exchanges     | `rabbitmqctl -n [erlang node name]@[host name] list_exchanges`    |
+| List bindings     | `rabbitmqctl -n [erlang node name]@[host name] list_bindigns`    |
 | Set RabbitMQ node name     | `set rabbitmq_nodename=[node name]`    |
 | Set RabbitMQ node port     | `set rabbitmq_node_port=[node port]`    |
 | Change RabbitMQ config file path     | `set config_file=[new path]`    |
