@@ -86,6 +86,8 @@ tasks.Add(Task.Run(async () =>
                 body: body,
                 basicProperties: props,
                 mandatory: true);
+
+            Thread.Sleep(5000);
         }
         catch (Exception exc)
         {
