@@ -19,8 +19,9 @@
 | List queues     | `rabbitmqctl list_queues -p [vhost name]`    |
 | List exchanges     | `rabbitmqctl list_exchanges`    |
 | List bindings     | `rabbitmqctl list_bindigns`    |
-| Set rabbitmq node name     | `set rabbitmq_nodename=[node name]`    |
-| Set rabbitmq node port     | `set rabbitmq_node_port=[node port]`    |
+| Set RabbitMQ node name     | `set rabbitmq_nodename=[node name]`    |
+| Set RabbitMQ node port     | `set rabbitmq_node_port=[node port]`    |
+| Change RabbitMQ config file path     | `set config_file=[new path]`    |
 
 ## Erlang commands
 | Description | Command |
@@ -31,3 +32,8 @@
 |  Ping other node    | `net_adm:ping('[erlang node]@[hostname]')`    |
 |  Close the erlang node    | `net_adm:q().`    |
 
+## Importain RabbitMQ files
+| Description | Path |
+|------------------|-----------------|
+|  RabbitMQ log    | `/var/log/rabbitmq/[erlang node name]@[hostname].log`    |
+|  RabbitMQ config file (systemwide tunables and settings)    | `/etc/rabbitmq/rabbitmq.config`    |
