@@ -9,10 +9,6 @@ var connection = await factory.CreateConnectionAsync();
 
 string rabbitmqLogsExchagneName = "amq.rabbitmq.log";
 
-string errorLogsQueueName = "errorLogsQueue";
-string warningLogsQueueName = "warningLogsQueue";
-string infoLogsQueueName = "infoLogsQueue";
-
 string errorRoutingKey = "error";
 string warningRoutingKey = "warning";
 string infoRoutingKey = "info";
@@ -23,8 +19,8 @@ var tasks = new List<Task>();
 tasks.Add(Task.Run(async () =>
 {
     var channel = await connection.CreateChannelAsync();
-    await channel.QueueDeclareAsync(queue: errorLogsQueueName);
-    await channel.QueueBindAsync(queue: errorLogsQueueName, exchange: rabbitmqLogsExchagneName, routingKey: errorRoutingKey);
+    var queueDeclareResult = await channel.QueueDeclareAsync();
+    await channel.QueueBindAsync(queue: queueDeclareResult.QueueName, exchange: rabbitmqLogsExchagneName, routingKey: errorRoutingKey);
 
     AsyncEventingBasicConsumer consumer = new(channel);
     consumer.ReceivedAsync += async (sender, eventArgs) =>
@@ -33,7 +29,7 @@ tasks.Add(Task.Run(async () =>
         WriteLineRed($"[Error]: {errorMessage}");  
     };
 
-    await channel.BasicConsumeAsync(queue: errorLogsQueueName, autoAck: true, consumer);
+    await channel.BasicConsumeAsync(queue: queueDeclareResult.QueueName, autoAck: true, consumer);
 }));
 #endregion
 
@@ -41,8 +37,8 @@ tasks.Add(Task.Run(async () =>
 tasks.Add(Task.Run(async () =>
 {
     var channel = await connection.CreateChannelAsync();
-    await channel.QueueDeclareAsync(queue: warningLogsQueueName);
-    await channel.QueueBindAsync(queue: warningLogsQueueName, exchange: rabbitmqLogsExchagneName, routingKey: warningRoutingKey);
+    var queueDeclareResult = await channel.QueueDeclareAsync();
+    await channel.QueueBindAsync(queue: queueDeclareResult.QueueName, exchange: rabbitmqLogsExchagneName, routingKey: warningRoutingKey);
 
     AsyncEventingBasicConsumer consumer = new(channel);
     consumer.ReceivedAsync += async (sender, eventArgs) =>
@@ -51,7 +47,7 @@ tasks.Add(Task.Run(async () =>
         WriteLineYellow($"[Warning]: {errorMessage}");
     };
 
-    await channel.BasicConsumeAsync(queue: warningLogsQueueName, autoAck: true, consumer);
+    await channel.BasicConsumeAsync(queue: queueDeclareResult.QueueName, autoAck: true, consumer);
 
 }));
 #endregion
@@ -60,8 +56,8 @@ tasks.Add(Task.Run(async () =>
 tasks.Add(Task.Run(async () =>
 {
     var channel = await connection.CreateChannelAsync();
-    await channel.QueueDeclareAsync(queue: infoLogsQueueName);
-    await channel.QueueBindAsync(queue: infoLogsQueueName, exchange: rabbitmqLogsExchagneName, routingKey: infoRoutingKey);
+    var queueDeclareResult = await channel.QueueDeclareAsync();
+    await channel.QueueBindAsync(queue: queueDeclareResult.QueueName, exchange: rabbitmqLogsExchagneName, routingKey: infoRoutingKey);
 
     AsyncEventingBasicConsumer consumer = new(channel);
     consumer.ReceivedAsync += async (sender, eventArgs) =>
@@ -70,7 +66,7 @@ tasks.Add(Task.Run(async () =>
         WriteLineBlue($"[Info]: {errorMessage}");
     };
 
-    await channel.BasicConsumeAsync(queue: infoLogsQueueName, autoAck: true, consumer);
+    await channel.BasicConsumeAsync(queue: queueDeclareResult.QueueName, autoAck: true, consumer);
 
 }));
 #endregion
