@@ -22,6 +22,7 @@
 | Set RabbitMQ node name     | `set rabbitmq_nodename=[node name]`    |
 | Set RabbitMQ node port     | `set rabbitmq_node_port=[node port]`    |
 | Change RabbitMQ config file path     | `set config_file=[new path]`    |
+| Order of commands for joining new node to cluster     | 1: `rabbitmqctl -n [new node address] stop_app`<br>2: `rabbitmqctl -n [new node address] reset`<br>3: `rabbitmqctl -n [new node address] cluster_join --[ram/disk] [disk node address 1] [disk node address 2] ... [disk node address n]`<br> 4: `rabbitmqctl -n [new node address] start_app`    |
 
 ## Erlang commands
 | Description | Command |
