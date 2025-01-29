@@ -29,11 +29,13 @@
 |  Create new erlang node with given short name    | `erl -sname [node name]`    |
 |  Show the erlang node name    | `node().`    |
 |  Show other erlang nodes run on the machine    | `net_adm:names().`    |
-|  Ping other node    | `net_adm:ping('[erlang node]@[hostname]')`    |
-|  Close the erlang node    | `net_adm:q().`    |
+|  Ping other node    | `net_adm:ping('[erlang node name]@[hostname]')`    |
+|  Close the erlang node    | `rpc:call([earlang node name]@[hostname], [module], [function], [[arguments]])`    |  
+|  Close the erlang node    | `net_adm:q().`    |  
 
 ## Importain RabbitMQ files
 | Description | Path |
 |------------------|-----------------|
 |  RabbitMQ log file    | `/var/log/rabbitmq/[erlang node name]@[hostname].log`    |
 |  RabbitMQ config file (systemwide tunables and settings)    | `/etc/rabbitmq/rabbitmq.config`    |
+|  Erlagn cookie    | *usually located in the user’s home directory*    |
