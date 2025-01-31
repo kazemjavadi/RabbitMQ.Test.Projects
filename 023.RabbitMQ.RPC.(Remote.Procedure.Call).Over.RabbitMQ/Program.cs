@@ -35,6 +35,8 @@ tasks.Add(Task.Run(async () =>
 #region RPC client
 tasks.Add(Task.Run(async () =>
 {
+    Thread.Sleep(5000);
+
     var factory = new ConnectionFactory();
     var connection = await factory.CreateConnectionAsync();
     var channel = await connection.CreateChannelAsync();
