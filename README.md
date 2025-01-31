@@ -22,6 +22,8 @@
 | Set RabbitMQ node name     | `set rabbitmq_nodename=[node name]`    |
 | Set RabbitMQ node port     | `set rabbitmq_node_port=[node port]`    |
 | Change RabbitMQ config file path     | `set config_file=[new path]`    |
+| Order of commands for joining new node to cluster     | 1: `rabbitmqctl -n [new node address] stop_app`<br>2: `rabbitmqctl -n [new node address] reset`<br>3: `rabbitmqctl -n [new node address] join_cluster --[ram/disk] [disk node address 1] [disk node address 2] ... [disk node address n]`<br> 4: `rabbitmqctl -n [new node address] start_app`    |
+| *reset* empties the node of its metadata and restores it to an empty state (When the node being reset is a part of a cluster, the command also communicates with the disk nodes in the cluster to tell them that the node is leaving)  | `rabbitmqctl [node address] reset`|
 
 ## Erlang commands
 | Description | Command |
