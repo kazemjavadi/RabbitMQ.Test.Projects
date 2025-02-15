@@ -1,59 +1,92 @@
-﻿
-
-
-
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using RabbitMQ.Client.Exceptions;
 using System.Text;
 
-var tasks = new List<Task>();
+//Classic mirrored queues were deprecated in RabbitMQ version 3.9.
+//They will be removed completely in RabbitMQ version 4.0.
 
-#region Producer
-tasks.Add(Task.Run(async () =>
+string mirroredQueueName = "myMirroredQueue";
+string nonMirroredQueueName = "myNonMirroredQueue";
+string exchangeName = "myExchange";
+string userInput = string.Empty;
+
+while (true)
 {
-//    var factory = new ConnectionFactory() { HostName = "localhost", Port = 5670 };
-//    var connection = await factory.CreateConnectionAsync();
-//    var channel = await connection.CreateChannelAsync();
-
-//    // Declare a mirrored queue
-//    Dictionary<string, object?> arguments = new()
-//    {
-//        { "x-ha-policy", "all" }  // Enables mirroring for this queue
-//    };
-
-//    await channel.QueueDeleteAsync(queue: "myMirroredQueue");
-//    await channel.QueueDeleteAsync(queue: "myNonMirroredQueue");
-
-//    await channel.QueueDeclareAsync(queue: "myMirroredQueue", exclusive: false, arguments: arguments);
-//    await channel.QueueDeclareAsync(queue: "myNonMirroredQueue", exclusive: false);
-
-//    await channel.ExchangeDeclareAsync(exchange: "myExchange", type: ExchangeType.Direct);
-//    await channel.QueueBindAsync(queue: "myNonMirroredQueue", exchange: "myExchange", routingKey: string.Empty);
-
-//    await channel.BasicPublishAsync(exchange: "myExchange", routingKey: string.Empty, Encoding.UTF8.GetBytes("Hello"));
-}));
-#endregion
-
-#region Consumer
-tasks.Add(Task.Run(async () =>
-{
-    var factory = new ConnectionFactory() { HostName = "localhost", Port = 5670 };
-    var connection = await factory.CreateConnectionAsync();
-    var channel = await connection.CreateChannelAsync();
-
-    AsyncEventingBasicConsumer consumer = new AsyncEventingBasicConsumer(channel);
-    consumer.ReceivedAsync += async (sender, eventArgs) =>
+    do
     {
-        Console.WriteLine(Encoding.UTF8.GetString(eventArgs.Body.ToArray()));
-    };
+        Console.Write("[1] Producer [2] Consumer (Mirrored queue) [3] Consumer (None mirrored queue): ");
+        userInput = Console.ReadLine() ?? string.Empty;
+    } while (!(userInput == "1" || userInput == "2" || userInput == "3"));
 
-    await channel.BasicConsumeAsync(queue: "myMirroredQueue", autoAck: true, consumer: consumer);
-}));
-#endregion
+    if (userInput == "1") //Producer
+    {
 
-await Task.WhenAll(tasks);
+        var factory = new ConnectionFactory() { HostName = "localhost", Port = 5672 };
+        using var connection = await factory.CreateConnectionAsync();
+        using var channel = await connection.CreateChannelAsync();
 
-Console.WriteLine("Run this \"rabbitmqctl list_queues name policy slave_pids\" command to check your queue is mirrored. ");
+        await channel.QueueDeleteAsync(queue: mirroredQueueName);
+        await channel.QueueDeleteAsync(queue: nonMirroredQueueName);
 
-Console.ReadLine();
+        // Declare a mirrored queue
+        Dictionary<string, object?> arguments = new()
+        {
+            { "ha-mode", "all" }  // Enables mirroring for this queue
+        };
+
+        await channel.QueueDeclareAsync(queue: mirroredQueueName, exclusive: false, arguments: arguments);
+        await channel.QueueDeclareAsync(queue: nonMirroredQueueName, exclusive: false);
+
+        await channel.ExchangeDeclareAsync(exchange: exchangeName, type: ExchangeType.Direct);
+        await channel.QueueBindAsync(queue: mirroredQueueName, exchange: exchangeName, routingKey: string.Empty);
+        await channel.QueueBindAsync(queue: nonMirroredQueueName, exchange: exchangeName, routingKey: string.Empty);
+
+        await channel.BasicPublishAsync(exchange: exchangeName, routingKey: string.Empty, Encoding.UTF8.GetBytes("Hello"));
+
+        Thread.Sleep(3000);
+    }
+    else if (userInput == "2")
+    {
+        try
+        {
+            var factory = new ConnectionFactory() { HostName = "localhost", Port = 5670 };
+            using var connection = await factory.CreateConnectionAsync();
+            using var channel = await connection.CreateChannelAsync();
+
+            AsyncEventingBasicConsumer consumer = new AsyncEventingBasicConsumer(channel);
+            consumer.ReceivedAsync += async (sender, eventArgs) =>
+            {
+                string message = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
+                Console.WriteLine($"[Mirrored queue]: {message}");
+            };
+
+            await channel.BasicConsumeAsync(queue: mirroredQueueName, autoAck: true, consumer: consumer);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[Error-{mirroredQueueName}]: {ex.Message}");
+        }
+    }
+    else if (userInput == "3")
+    {
+        try
+        {
+            var factory = new ConnectionFactory() { HostName = "localhost", Port = 5670 };
+            using var connection = await factory.CreateConnectionAsync();
+            using var channel = await connection.CreateChannelAsync();
+
+            AsyncEventingBasicConsumer consumer = new AsyncEventingBasicConsumer(channel);
+            consumer.ReceivedAsync += async (sender, eventArgs) =>
+            {
+                string message = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
+                Console.WriteLine($"[{nonMirroredQueueName}]: {message}");
+            };
+
+            await channel.BasicConsumeAsync(queue: nonMirroredQueueName, autoAck: true, consumer: consumer);
+        }
+        catch (Exception exc)
+        {
+            Console.WriteLine($"[Error-{nonMirroredQueueName}]: {exc.Message}");
+        }
+    }
+}
