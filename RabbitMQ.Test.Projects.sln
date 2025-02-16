@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "023.RabbitMQ.RPC.(Remote.Pr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "024.RabbitMQ,Mirrored.Queue", "024.RabbitMQ,Mirrored.Queue\024.RabbitMQ,Mirrored.Queue.csproj", "{B94B214C-D2AB-446F-937A-93BC786E6E22}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "025.RabbitMQ.Quorum.Queue", "025.RabbitMQ.Quorum.Queue\025.RabbitMQ.Quorum.Queue.csproj", "{AE8CE12A-65E9-46C3-A5E9-6F0D4F2B4509}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +155,10 @@ Global
 		{B94B214C-D2AB-446F-937A-93BC786E6E22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B94B214C-D2AB-446F-937A-93BC786E6E22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B94B214C-D2AB-446F-937A-93BC786E6E22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE8CE12A-65E9-46C3-A5E9-6F0D4F2B4509}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE8CE12A-65E9-46C3-A5E9-6F0D4F2B4509}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE8CE12A-65E9-46C3-A5E9-6F0D4F2B4509}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE8CE12A-65E9-46C3-A5E9-6F0D4F2B4509}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
